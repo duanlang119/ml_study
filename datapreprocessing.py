@@ -2,10 +2,16 @@ import numpy as np
 import pandas as pd
 
 '''
-st
+数据预处理
 '''
 
 df = pd.read_csv('data/bank_churn_data.csv', delimiter=',')
+
+# Check columns list and missing values
+print(df.isnull().sum())
+
+# Get unique count for each variable
+print(df.nunique())
 
 # Drop the columns as explained above
 df = df.drop(["RowNumber", "CustomerId", "Surname"], axis = 1)
