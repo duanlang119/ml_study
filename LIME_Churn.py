@@ -45,6 +45,8 @@ exp = interpretor.explain_instance(
     predict_fn=classifier1.predict_proba
 )
 
+exp.show_in_notebook(show_all=False)
+
 rs=exp.as_list()
 
 print(rs)
