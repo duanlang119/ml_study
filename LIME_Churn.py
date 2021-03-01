@@ -1,52 +1,44 @@
-# Importing the libraries
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.model_selection import train_test_split
-
-# data preprocessing:
-def data_prep():
-    # Importing the dataset
-    data = pd.read_csv('data/bank_churn_data.csv', delimiter=',')
-    X = data.iloc[:, 3:13]
-    y = data.iloc[:, 13]
-    geography=pd.get_dummies(X["Geography"],drop_first=True)
-    gender=pd.get_dummies(X['Gender'],drop_first=True)
-    X=pd.concat([X,geography,gender],axis=1)
-    X=X.drop(['Geography','Gender'],axis=1)
-    # Splitting the dataset into the Training set and Test set
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.3, random_state = 0)
-    return X_train, X_test, y_train, y_test
-
-X_train, X_test, y_train, y_test = data_prep()
-
-classifier1=pd.read_pickle('classifier.pkl')
-
 from lime import lime_tabular
+
+X = pd.read_csv('data/X_data_bank_churn.csv', delimiter=',')
+y = pd.read_csv('data/y_data_bank_churn.csv', delimiter=',')
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+
+X_pred=X.iloc[8000:10000,:]
+print(X_pred.shape)
+
+classifier1=pd.read_pickle('results/svm_rbf_mod.pkl')
 
 interpretor = lime_tabular.LimeTabularExplainer(
     training_data=np.array(X_train),
     feature_names=X_train.columns,
     mode='classification'
 )
-print(X_test.iloc[88])
-print('prediction: {}'.format(classifier1.predict(X_test.iloc[[88],:])))
 
-feature_importance = pd.DataFrame()
-feature_importance['variable'] = X_train.columns
-feature_importance['importance'] = classifier1.feature_importances_
+def get_exp(raw_data):
+    exp_churn = interpretor.explain_instance(
+        data_row=raw_data,  ##new data
+        predict_fn=classifier1.predict_proba
+    )
+    rs = exp_churn.as_list()
+    ratio=exp_churn.predict_proba[1]
+    return ratio,rs
 
-# feature_importance values in descending order
-ft_imp=feature_importance.sort_values(by='importance', ascending=False).head(10)
-print(ft_imp)
 
-exp = interpretor.explain_instance(
-    data_row=X_test.iloc[88], ##new data
-    predict_fn=classifier1.predict_proba
-)
+predictions=[]
+ratios=[]
+details=[]
+for i in range(2000):
+    predictions.append(classifier1.predict(X_pred.iloc[[i],:])[0])
+    ratio,detail=get_exp(X_pred.iloc[i])
+    ratios.append(ratio)
+    details.append(detail)
 
-exp.show_in_notebook(show_all=False)
+df_lime_all=pd.DataFrame({'predictions':predictions,'ratios':ratios,'details':details})
 
-rs=exp.as_list()
+df_4_pre=pd.concat([X_pred,df_lime_all], axis=1)
 
-print(rs)
+df_4_pre.to_csv('results/LIME_predictions.csv', index=False)

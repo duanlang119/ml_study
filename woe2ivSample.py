@@ -22,7 +22,7 @@ woe_all = np.zeros((1, 8))
 var_iv = np.zeros((var_num))
 data_index = []
 for k in range(0, var_num):
-    var1 = df.groupby([var_list[k]])[Y_flag].count()  # 计算col每个分组中的组的个数
+    var1 = df.groupby([var_list[k]])[Y_flag].count()  #  计算col每个分组中的组的个数
     var_class = var1.shape[0]
     woe = np.zeros((var_class, 8))
     woe_pre = pd.DataFrame(data={'x1': [], 'ifgood': [], 'values': []})

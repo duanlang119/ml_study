@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 '''
-数据预处理
+demise
 '''
 
 df = pd.read_csv('data/bank_churn_data.csv', delimiter=',')
