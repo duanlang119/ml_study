@@ -31,11 +31,14 @@ def get_exp(raw_data):
 predictions=[]
 ratios=[]
 details=[]
+print(f'started ~!')
 for i in range(2000):
+    print(f'started {i} times~!')
     predictions.append(classifier1.predict(X_pred.iloc[[i],:])[0])
     ratio,detail=get_exp(X_pred.iloc[i])
     ratios.append(ratio)
     details.append(detail)
+    print(f'completed {i} times~!')
 
 df_lime_all=pd.DataFrame({'predictions':predictions,'ratios':ratios,'details':details})
 
