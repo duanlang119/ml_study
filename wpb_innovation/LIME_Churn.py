@@ -3,14 +3,14 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from lime import lime_tabular
 
-X = pd.read_csv('data/X_data_bank_churn.csv', delimiter=',')
-y = pd.read_csv('data/y_data_bank_churn.csv', delimiter=',')
+X = pd.read_csv('../data/X_data_bank_churn.csv', delimiter=',')
+y = pd.read_csv('../data/y_data_bank_churn.csv', delimiter=',')
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
 X_pred=X.iloc[8000:10000,:]
 print(X_pred.shape)
 
-classifier1=pd.read_pickle('results/svm_rbf_mod.pkl')
+classifier1=pd.read_pickle('../results/svm_rbf_mod.pkl')
 
 interpretor = lime_tabular.LimeTabularExplainer(
     training_data=np.array(X_train),

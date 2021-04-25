@@ -8,7 +8,7 @@ from sklearn.preprocessing import MinMaxScaler
 # data preprocessing:
 def data_prep():
     # Importing the dataset
-    data = pd.read_csv('data/bank_churn_data.csv', delimiter=',')
+    data = pd.read_csv('../data/bank_churn_data.csv', delimiter=',')
     # Drop the columns as explained above
     # df = df.drop(["RowNumber", "CustomerId", "Surname"], axis=1)
     X = data.iloc[:, 3:13]
@@ -53,7 +53,7 @@ def data_prep():
 # data preprocessing:
 def data_prep_without_Scaler():
     # Importing the dataset
-    data = pd.read_csv('data/bank_churn_data.csv', delimiter=',')
+    data = pd.read_csv('../data/bank_churn_data.csv', delimiter=',')
     # Drop the columns as explained above
     # df = df.drop(["RowNumber", "CustomerId", "Surname"], axis=1)
     X = data.iloc[:, 3:13]
@@ -97,9 +97,9 @@ def X_shape_saver():
     df.to_csv('data/df_minVec_and_maxVec.csv', index=False)
 
 def test_min_ori():
-    df_ori=pd.read_csv('data/bank_churn_data.csv', delimiter=',')
-    df_fin=pd.read_csv('data/X_data_bank_churn.csv', delimiter=',')
-    df_max=pd.read_csv('data/df_minVec_and_maxVec.csv', delimiter=',')
+    df_ori=pd.read_csv('../data/bank_churn_data.csv', delimiter=',')
+    df_fin=pd.read_csv('../data/X_data_bank_churn.csv', delimiter=',')
+    df_max=pd.read_csv('../data/df_minVec_and_maxVec.csv', delimiter=',')
     df_new=df_ori['CustomerId']
     continuous_vars=['CreditScore', 'Age', 'Tenure', 'Balance', 'NumOfProducts', 'EstimatedSalary']
     # continuous_vars=['CreditScore']
@@ -124,8 +124,8 @@ def test_min_ori():
 
 # demise
 def split_csv(x_file,y_file):
-    X = pd.read_csv('data/X_data_bank_churn.csv', delimiter=',')
-    y = pd.read_csv('data/y_data_bank_churn.csv', delimiter=',')
+    X = pd.read_csv('../data/X_data_bank_churn.csv', delimiter=',')
+    y = pd.read_csv('../data/y_data_bank_churn.csv', delimiter=',')
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
     print(X_train.head())
     print(y_train.head())
