@@ -5,7 +5,7 @@ import pandas as pd
 demise
 '''
 
-df = pd.read_csv('../data/bank_churn_data.csv', delimiter=',')
+df = pd.read_csv('data/bank_churn_data.csv', delimiter=',')
 
 # Check columns list and missing values
 print(df.isnull().sum())
