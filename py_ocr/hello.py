@@ -1,7 +1,7 @@
 import cv2 as cv
 import pytesseract as tess
 
-image = cv.imread("D:/workspace/AI-Study/ts_ml_ppt/Snipaste_2021-05-12_17-59-39.png")
+image = cv.imread("D:/workspace/ziping/3.png")
 image_rgb = cv.cvtColor(image, cv.COLOR_BGR2RGB)
 text = tess.image_to_string(image_rgb, lang="chi_sim")
 print(text)
